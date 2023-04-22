@@ -101,6 +101,8 @@ if __name__ == '__main__':
     args = parse_opt()
     big_img_path = args.big_img_path if args.big_img_path[-1] != '/' else args.big_img_path[0:-1]
     cut_img_dir = args.cut_img_dir if args.cut_img_dir[-1] != '/' else args.cut_img_dir[0:-1]
+    father_dir, _ = os.path.split(big_img_path)
+    if not os.path.isdir(father_dir): os.makedirs(father_dir)
     if args.op == 'cut':
         cut(big_img_path, cut_img_dir, (args.width, args.height))
     elif args.op == 'compose':

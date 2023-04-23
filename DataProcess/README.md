@@ -119,3 +119,10 @@ python read_tif.py \
         --path ./test.tif       # tif文件路径或者tif文件所在的文件夹
 ```
 ---
+### 3.4 fix_tif
+修复tif图像，有的tif图像的地理信息在其他文件(一般该文件与tif图像在同一文件夹下)中，不包含在tif图像中，用该脚本进行合并
+```bash
+python fix_tif.py \
+        --img_path ./src/A1.tif \
+        --save_path ./dst/A1.tif
+```

@@ -90,15 +90,15 @@ def random_boxes(point, box_num, img_size, box_size):
         # 根据object在大图中的坐标确定box
         box_xmin = point[0][0] - xmin
         box_ymin = point[0][1] - ymin
-        box_xmax = box_xmin + box_size[0] - 1
-        box_ymax = box_ymin + box_size[1] - 1
+        box_xmax = box_xmin + box_size[0]
+        box_ymax = box_ymin + box_size[1]
         # 防止box超出图像边界
         box_xmin = 0 if box_xmin < 0 else box_xmin
         box_ymin = 0 if box_ymin < 0 else box_ymin
         box_xmin = img_size[0] - box_size[0] if (box_xmin + box_size[0]) > img_size[0] else box_xmin
         box_ymin = img_size[1] - box_size[1] if (box_ymin + box_size[1]) > img_size[1] else box_ymin
-        box_xmax = box_xmin + box_size[0] - 1
-        box_ymax = box_ymin + box_size[1] - 1
+        box_xmax = box_xmin + box_size[0]
+        box_ymax = box_ymin + box_size[1]
         boxes.append([[box_xmin, box_ymin], [box_xmax, box_ymax]])
     return boxes
     

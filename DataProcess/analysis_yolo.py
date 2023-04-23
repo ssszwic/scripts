@@ -53,12 +53,21 @@ def plot_labels(labels, names=(), save_dir=''):
     matplotlib.use('svg')  # faster
     ax = plt.subplots(2, 2, figsize=(8, 8), tight_layout=True)[1].ravel()
     y = ax[0].hist(c, bins=np.linspace(0, nc, nc + 1) - 0.5, rwidth=0.8)
-    data = {'category':names, 'nums':y[0]}
-    # 使输入的nc name和分析得到的nc数量一致
-    if (len(data['category']) - len(data['nums'])) != 0:
-        temp = data['category']
-        temp = temp[0:-(len(data['category']) - len(data['nums']))]
-        data['category'] = temp
+    
+    # 使直方图的柱数与标签名称匹配，数目为0的不显示
+    new_names, new_y0, new_y1 = [], [], []
+    for name, y0, y1 in zip(names, y[0], y[1]):
+        if y0 == 0:
+            continue
+        else:
+            new_names.append(name)
+            new_y0.append(y0)
+            new_y1.append(y1)
+    
+    names = new_names
+    y = (new_y0, new_y1)
+    data = {'category':new_names, 'nums':y[0]}
+
 
     df0 = pd.DataFrame(data)
     df0.to_excel(os.path.join(save_dir, 'labels.xlsx'), na_rep=False)

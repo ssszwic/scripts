@@ -123,6 +123,15 @@ python read_tif.py \
 修复tif图像，有的tif图像的地理信息在其他文件(一般该文件与tif图像在同一文件夹下)中，不包含在tif图像中，用该脚本进行合并
 ```bash
 python fix_tif.py \
-        --img_path ./src/A1.tif \
-        --save_path ./dst/A1.tif
+        --img_path ./src/A1.tif \       # 待处理图像的路径
+        --save_path ./dst/A1.tif        # 处理后图像的路径
+```
+---
+### 3.5 change_tif_dpi
+改变tif图像的分辨率，使用opencv对图像进行缩放
+```bash
+python change_tif_dpi.py \          
+        --img_path ./src/A1.tif \       # 待处理图像的路径
+        --save_path ./dst/A1.tif \      # 处理后图像的路径
+        --dpi 3.5784e-06                # 目标dpi，每单位像素的经纬度距离
 ```

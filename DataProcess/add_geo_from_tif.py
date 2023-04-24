@@ -40,26 +40,34 @@ def get_base_name(full_names):
         name, _, = os.path.splitext(long_name)
         return name
 
+def parse_opt():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--img_path', type=str, required=True, help='process tif path')
+    parser.add_argument('--src_path', type=str, required=True, help='src tif path')
+    parser.add_argument('--save_path', type=str, required=True, help='new tif save path')
+    return parser.parse_args()
 
 if __name__ == '__main__':
-    img_dir = '/home/ssszw/Work/military_prj/images/test_ps/post_src'
-    save_dir = '/home/ssszw/Work/military_prj/images/test_ps/post_tif'
+    args = parse_opt()
+    img_path = args.img_path
+    src_path = args.src_path
+    dst_path = args.save_path
 
-    names = os.listdir(img_dir)
-    for name in names:
-        src_path = f'{img_dir}/{name}/{name}.tif'
-        dst_path = f'{save_dir}/{name}.tif'
-        
-        father_path, _ = os.path.split(dst_path)
-        if not os.path.isdir(father_path): os.makedirs(father_path)
+    father_path, _ = os.path.split(dst_path)
+    if not os.path.isdir(father_path): os.makedirs(father_path)
 
-        im_proj, im_Geotrans, im_data = read_tif(src_path)
-        driver = gdal.GetDriverByName('GTiff')
-        if im_data.shape[0] == 4:
-            im_data = im_data[0:3]
-        dataset = driver.Create(dst_path, im_data.shape[2], im_data.shape[1], 3, gdal.GDT_Byte)
+    # read img tif
+    _, _, img_data = read_tif(img_path)
+    if img_data.shape[0] == 4:
+        img_data  = img_data [0:3]
 
-        if dataset is not None:
-            dataset.SetGeoTransform(im_Geotrans)
-            dataset.SetProjection(im_proj)
-            dataset.WriteArray(im_data)
+    # read source tif
+    src_proj, src_Geotrans, _ = read_tif(src_path)
+
+    driver = gdal.GetDriverByName('GTiff')
+    dataset = driver.Create(dst_path, img_data.shape[2], img_data.shape[1], 3, gdal.GDT_Byte)
+
+    if dataset is not None:
+        dataset.SetGeoTransform(src_Geotrans)
+        dataset.SetProjection(src_proj)
+        dataset.WriteArray(img_data)

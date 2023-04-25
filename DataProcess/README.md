@@ -135,3 +135,13 @@ python change_tif_dpi.py \
         --save_path ./dst/A1.tif \      # 处理后图像的路径
         --dpi 3.5784e-06                # 目标dpi，每单位像素的经纬度距离
 ```
+---
+### 3.6 add_geo_from_tif
+有的tif图像在经过转换后会丢失地理信息，该脚本用于将其它图像的地理信息迁移到指定图像中
+```bash
+python add_geo_from_tif.py \          
+        --img_path ./src/A1.tif \       # 待添加或改变地理信息的tif图像
+        --geo_path ./geo/A1.tif \       # 包含所需要地理信息的tif图像
+        --save_path ./dst/A1.tif        # 生成的tif图像保存路径
+```
+---

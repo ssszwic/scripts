@@ -43,31 +43,31 @@ def get_base_name(full_names):
 def parse_opt():
     parser = argparse.ArgumentParser()
     parser.add_argument('--img_path', type=str, required=True, help='process tif path')
-    parser.add_argument('--src_path', type=str, required=True, help='src tif path')
+    parser.add_argument('--geo_path', type=str, required=True, help='src tif path')
     parser.add_argument('--save_path', type=str, required=True, help='new tif save path')
     return parser.parse_args()
 
 if __name__ == '__main__':
     args = parse_opt()
     img_path = args.img_path
-    src_path = args.src_path
+    geo_path = args.geo_path
     dst_path = args.save_path
 
     father_path, _ = os.path.split(dst_path)
     if not os.path.isdir(father_path): os.makedirs(father_path)
 
     # read img tif
-    _, _, img_data = read_tif(img_path)
+    img_proj, img_Geotrans, img_data = read_tif(img_path)
     if img_data.shape[0] == 4:
         img_data  = img_data [0:3]
 
     # read source tif
-    src_proj, src_Geotrans, _ = read_tif(src_path)
+    geo_proj, geo_Geotrans, _ = read_tif(geo_path)
 
     driver = gdal.GetDriverByName('GTiff')
     dataset = driver.Create(dst_path, img_data.shape[2], img_data.shape[1], 3, gdal.GDT_Byte)
 
     if dataset is not None:
-        dataset.SetGeoTransform(src_Geotrans)
-        dataset.SetProjection(src_proj)
+        dataset.SetGeoTransform(geo_Geotrans)
+        dataset.SetProjection(geo_proj)
         dataset.WriteArray(img_data)

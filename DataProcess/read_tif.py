@@ -56,4 +56,4 @@ if __name__ == '__main__':
     for file in files:
         im_proj, im_Geotrans, im_data = read_tif(file)
         base_name = get_base_name(file)
-        print(f"{base_name}.tif:\n{im_Geotrans}")
+        print(f"{base_name}.tif:\n{im_proj}\n{im_Geotrans}\n")

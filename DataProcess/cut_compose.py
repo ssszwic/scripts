@@ -95,6 +95,7 @@ def parse_opt():
     parser.add_argument('--cut_img_dir', type=str, required=True, help='cut image dir')
     parser.add_argument('--width', type=int, default=800, help='width step')
     parser.add_argument('--height', type=int, default=800, help='height step')
+    
     return parser.parse_args()
 
 if __name__ == '__main__':

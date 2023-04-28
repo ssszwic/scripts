@@ -67,7 +67,7 @@ def save_label(save_path, labels, points, imageSize, type='json'):
     shapes = []
     for label, point in zip(labels, points):
          shapes.append({'label': label, 'points': point})
-    content = {'shapes': shapes, 'imageHeight': imageSize[0], 'imageWidth': imageSize[1]}
+    content = {'shapes': shapes, 'imageHeight': imageSize[1], 'imageWidth': imageSize[0]}
     with open(save_path, 'w', newline='\n') as fw:
         fw.write(json.dumps(content, indent=2))
 

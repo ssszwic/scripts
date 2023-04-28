@@ -7,17 +7,18 @@ import argparse
 #输入图像
 def read_tif(path):
     dataset = gdal.Open(path)
-    cols = dataset.RasterXSize#图像长度
-    rows = (dataset.RasterYSize)#图像宽度
+    cols = dataset.RasterXSize#图像宽度
+    rows = (dataset.RasterYSize)#图像高度
     im_proj = (dataset.GetProjection())#读取投影
     im_Geotrans = (dataset.GetGeoTransform())#读取仿射变换
-    # im_data = dataset.ReadAsArray(0, 0, cols, rows)#转为numpy格式
-    im_data = dataset.ReadAsArray()
+    im_data = dataset.ReadAsArray(0, 0, cols, rows)#转为numpy格式
+    #im_data[im_data > 0] = 1 #除0以外都等于1
+    del dataset
     return im_proj, im_Geotrans, im_data
-    # geoTransform[0]：左上角像素经度
+    # geoTransform[0]：左上角像素纬度
     # geoTransform[1]：影像宽度方向上的分辨率(经度范围/像素个数)
     # geoTransform[2]：x像素旋转, 0表示上面为北方
-    # geoTransform[3]：左上角像素纬度
+    # geoTransform[3]：左上角像素经度
     # geoTransform[4]：y像素旋转, 0表示上面为北方label_dict
     # geoTransform[5]：影像宽度方向上的分辨率(纬度范围/像素个数)
 
